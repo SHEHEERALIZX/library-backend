@@ -50,7 +50,14 @@ const LibraryShelfSchema = mongoose.Schema({
 
     },
     ISBN10:{
-        type:Number,
+        type:String,
+        required:false
+
+    },
+
+
+    ImgURL:{
+        type:String,
         required:false
 
     },
