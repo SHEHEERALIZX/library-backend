@@ -12,7 +12,7 @@ services:
     # container_name: myapp
     build: .
     ports:
-      - 3000:3000    
+      - 3000:3001    
 
 #     environment:
 #      URI: mongodb://mongo123/test
