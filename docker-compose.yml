@@ -5,8 +5,8 @@ services:
     image: mongo:latest
     ports:
       - 27017:27017
-    volumes:
-      - mongo_dedicated_volume:/data/db
+#     volumes:
+#       - mongo_dedicated_volume:/data/db
 
    api_server:
     # container_name: myapp
