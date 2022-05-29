@@ -12,7 +12,7 @@ var fileupload = require("express-fileupload");
 
 var indexRouter = require("./routes/index");
 // var usersRouter = require('./routes/users');
-let apiRouter = require("./routes/API/api_v3");
+let authRouter = require("./routes/API/auth");
 let bookRouter = require("./routes/API/bookRoute");
 let userRouter = require("./routes/API/userRoute");
 
@@ -23,6 +23,8 @@ const { compare } = require("bcrypt");
 
 const chatId = 5265243832;
 
+let api_enabled = true
+
 // MongoDB setup Here
 
 const ConnectWithRetry = () => {
@@ -30,6 +32,7 @@ const ConnectWithRetry = () => {
     .connect(process.env.URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      
     })
     .then(() => {
       const res = "Connected Successfully";
@@ -85,10 +88,12 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-// app.use('/users', usersRouter);
 
-app.use("/apiV3", apiRouter);
+if(api_enabled==true){
+app.use("/", indexRouter);
+app.use("/apiV3/auth", authRouter);
+
+}
 app.use("/apiV3/books", bookRouter);
 app.use('/apiV3/users',userRouter);
 

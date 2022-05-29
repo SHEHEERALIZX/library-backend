@@ -12,6 +12,8 @@ const googleSheets = google.sheets({
   auth: client,
 });
 
+
+
 module.exports = {
   GetMetaData: async (spreadsheetId) => {
     // Get MetaData about spreadsheet
@@ -21,8 +23,21 @@ module.exports = {
       spreadsheetId,
     });
 
-    return MetaData.data;
+    let objArray = MetaData.data.sheets
+    let sheets = objArray.map(a => a.properties.title);
+
+
+    let obj = {
+      sheetID : MetaData.data.spreadsheetId,
+      title:MetaData.data.properties.title,
+      timezone:MetaData.data.properties.timeZone,
+      spreadsheetUrl:MetaData.data.spreadsheetUrl,
+      sheettitle:sheets
+    }
+    return obj;
   },
+
+
 
   GetRowData: async (spreadsheetId, sheetTitle) => {
     try {
@@ -31,21 +46,12 @@ module.exports = {
         spreadsheetId,
         range: sheetTitle,
       });
+      return {response,status:205}
 
-      result = {
-          response,
-          status:205
-      }
-
-      return result;
     } catch (err) {
 
         reason=err.message
-        result = {
-            reason:reason,
-            status:500
-        }
-      return result;
+        return {reason,status:500}
     }
   },
 };
